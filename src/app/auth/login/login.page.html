@@ -1,9 +1,27 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <form class="form-login" [formGroup]="forma" (ngSubmit)="login()">
+    <div class="head_content">
+      <ion-img class="logo" src="../../../assets/img/logo.png"></ion-img>
+    </div>
 
-<ion-content>
+    <div class="section_input">
+      <ion-label>Correo</ion-label>
+      <ion-item lines="none">
+        <ion-input type="email" name="username" formControlName="username"></ion-input>
+      </ion-item>
+    </div>
 
+    <div class="section_input">
+      <ion-label>Contraseña</ion-label>
+      <ion-item lines="none">
+        <ion-input type="password" name="password" formControlName="password" (keyup.enter)="login()"></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="section_input">
+      <ion-button type="submit" class="btn btn_full" expand="block" fill="solid" mode="ios" color="primary">
+        Ingresar
+      </ion-button>
+    </div>
+  </form>
 </ion-content>
