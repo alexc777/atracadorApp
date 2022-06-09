@@ -1,0 +1,6 @@
+{
+	"appId": "com.atracador.app",
+	"appName": "Atracador",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

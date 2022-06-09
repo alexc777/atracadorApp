@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'atracadorApp',
+  appId: 'com.atracador.app',
+  appName: 'Atracador',
   webDir: 'www',
   bundledWebRuntime: false
 };
