@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'tables',
     loadChildren: () => import('./pages/admin/tables/tables.module').then( m => m.TablesPageModule)
   },
+  {
+    path: 'menus',
+    loadChildren: () => import('./pages/admin/menus/menus.module').then( m => m.MenusPageModule)
+  },
 ];
 
 @NgModule({

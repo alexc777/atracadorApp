@@ -23,7 +23,7 @@
         </ion-col>
 
         <ion-col size="6">
-          <div class="card_tools">
+          <div class="card_tools" (click)="goTo('menus')">
             <ion-icon class="icon_tools" slot="start" name="clipboard-outline"></ion-icon>
             <h1>Menús</h1>
           </div>
@@ -37,7 +37,7 @@
         </ion-col>
 
         <ion-col size="6">
-          <div class="card_tools">
+          <div class="card_tools" (click)="logout()">
             <ion-icon class="icon_tools" slot="start" name="log-out-outline"></ion-icon>
             <h1>Salir</h1>
           </div>

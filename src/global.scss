@@ -50,6 +50,14 @@ ion-input {
   caret-color: #000;
 }
 
+ion-accordion {
+  float: left;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
 .btn {
   float: left;
   height: auto;
@@ -98,6 +106,19 @@ ion-input {
   ion-icon {
     font-size: 25px;
   }
+}
+
+.description_menu {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.center_buttons {
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toast-success {
