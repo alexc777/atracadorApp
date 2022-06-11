@@ -1,0 +1,103 @@
+<app-header titulo="Mesas"></app-header>
+
+<ion-content class="ion-padding bg_app">
+
+  <div class="container">
+    <ion-list class="list_globals" lines="none">
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Mesa #1 | Capacidad: 5 pers.</ion-label>
+
+          <ion-badge slot="end" color="success" mode="ios">Disponible</ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <!-- (click)="deleteClient(client)" -->
+          <ion-item-option class="item_action delete">
+            <ion-icon slot="top" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-item-option>
+
+          <!-- (click)="editProducto(producto)" -->
+          <ion-item-option class="item_action edit">
+            <ion-icon slot="top" name="create-outline"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Mesa #2 | Capacidad: 2 pers.</ion-label>
+
+          <ion-badge slot="end" color="danger" mode="ios">Ocupada</ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <!-- (click)="deleteClient(client)" -->
+          <ion-item-option class="item_action delete">
+            <ion-icon slot="top" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-item-option>
+
+          <!-- (click)="editProducto(producto)" -->
+          <ion-item-option class="item_action edit">
+            <ion-icon slot="top" name="create-outline"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Mesa #3 | Capacidad: 4 pers.</ion-label>
+
+          <ion-badge slot="end" color="success" mode="ios">Disponible</ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <!-- (click)="deleteClient(client)" -->
+          <ion-item-option class="item_action delete">
+            <ion-icon slot="top" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-item-option>
+
+          <!-- (click)="editProducto(producto)" -->
+          <ion-item-option class="item_action edit">
+            <ion-icon slot="top" name="create-outline"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Mesa #4 | Capacidad: 8 pers.</ion-label>
+
+          <ion-badge slot="end" color="danger" mode="ios">Ocupada</ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <!-- (click)="deleteClient(client)" -->
+          <ion-item-option class="item_action delete">
+            <ion-icon slot="top" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-item-option>
+
+          <!-- (click)="editProducto(producto)" -->
+          <ion-item-option class="item_action edit">
+            <ion-icon slot="top" name="create-outline"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+

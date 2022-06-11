@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
     const l = this.uiService.presentLoading();
     setTimeout(() => {
       this.uiService.dismissLoading(l);
-      // this.navCtrl.navigateRoot(['/home'],{ replaceUrl: true });
+      this.navCtrl.navigateRoot(['/dashboard'],{ replaceUrl: true });
     }, 1500);
   }
 

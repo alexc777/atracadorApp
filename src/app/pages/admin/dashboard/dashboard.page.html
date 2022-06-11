@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>El Atracador</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg_app">
+  <div class="container">
+    <ion-grid>
+      <ion-row class="ion-align-items-stretch">
+        <ion-col size="6">
+          <div class="card_tools" (click)="goTo('users')">
+            <ion-icon class="icon_tools" slot="start" name="people-outline"></ion-icon>
+            <h1>Usuarios</h1>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <div class="card_tools" (click)="goTo('tables')">
+            <ion-icon class="icon_tools" slot="start" name="tv-outline"></ion-icon>
+            <h1>Mesas</h1>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <div class="card_tools">
+            <ion-icon class="icon_tools" slot="start" name="clipboard-outline"></ion-icon>
+            <h1>Menús</h1>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <div class="card_tools">
+            <ion-icon class="icon_tools" slot="start" name="receipt-outline"></ion-icon>
+            <h1>Ordenes</h1>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <div class="card_tools">
+            <ion-icon class="icon_tools" slot="start" name="log-out-outline"></ion-icon>
+            <h1>Salir</h1>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
