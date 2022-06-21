@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border border_header">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" shape="round" color="light" class="ion-text-capitalize" (click)="createUser()" *ngIf="!editUser">
+        Crear
+      </ion-button>
+
+      <ion-button fill="clear" shape="round" color="light" class="ion-text-capitalize" (click)="sendEditUser()" *ngIf="editUser">
+        Editar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="text_action" *ngIf="!editUser">
+    Nuevo Usuario
+  </h1>
+
+  <h1 class="text_action" *ngIf="editUser">
+    Editar Usuario
+  </h1>
+
+  <form class="form_app top_form" [formGroup]="frmUser">
+    <div class="title_input m_from">
+      <label>Rol de usuario</label>
+    </div>
+    <ion-item class="container_selet">
+      <ion-select [interfaceOptions]="selectOptions" okText="Ok" cancelText="Cancelar" name="id_rol" formControlName="id_rol">
+          <ion-select-option *ngFor="let rol of arrRoles" [value]="rol.id_rol">
+            {{ rol.name }}
+          </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('id_rol')">Rol requerido</span>
+
+    <div class="title_input m_from">
+      <label>Nombre</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="text" autocorrect="on" class="form_input" name="first_name" formControlName="first_name"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('first_name')">Nombre requerido</span>
+
+    <div class="title_input m_from">
+      <label>Apellido</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="text" autocorrect="on" class="form_input" name="last_name" formControlName="last_name"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('last_name')">Apellido requerido</span>
+
+    <div class="title_input m_from">
+      <label>Email</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="email" autocorrect="on" class="form_input" name="email" formControlName="email"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('email')">Email requerido</span>
+
+    <div class="title_input m_from">
+      <label>Contraseña</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="password" autocorrect="on" class="form_input" name="password" formControlName="password"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('password')">Contraseña requerida</span>
+
+
+  </form>
+
+</ion-content>

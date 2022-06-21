@@ -35,6 +35,17 @@
             "prefix": "app",
             "style": "camelCase"
           }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "property",
+            "format": ["strictCamelCase"],
+            "filter": {
+              "regex": "[-, _, ^(Property-Name-One|Property-Name-Two)$]",
+              "match": false
+            }
+          }
         ]
       }
     },

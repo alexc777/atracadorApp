@@ -136,3 +136,76 @@ ion-accordion {
   color: #fff;
   --background: linear-gradient(90deg,#5477f0 0%,#6c64ee);
 }
+
+.radius-modal {
+  --border-radius: 15px 15px 0 0;
+}
+
+/*=============================================
+=            Formularios App            =
+=============================================*/
+
+.form_app {
+  float: left;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.top_form {
+    margin-top: 20px;
+  }
+
+  .title_input {
+    float: left;
+    width: 100%;
+
+    &.m_from {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      float: left;
+      font-size: 13px;
+      text-align: left;
+      color: #8e8e8e;
+      font-weight: normal;
+    }
+  }
+
+  .form_input {
+    margin: 5px 0;
+    border-radius: 8px;
+    border: 1px solid var(--ion-color-primary);
+  }
+
+  .container_selet {
+    ion-select {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+      margin: 5px 0;
+      --padding-end: 12px !important;
+      --padding-start: 12px !important;
+      border-radius: 8px;
+      border: 1px solid var(--ion-color-primary);
+    }
+  }
+
+  .frm-error {
+    float: left;
+    width: 100%;
+    margin: 5px 0;
+    font-size: 13px;
+    color: #ff9d46;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 10px 10px 10px 30px;
+    border: 1px solid #FF9D46;
+    background: #FFA04626 url('./assets/img/ico-warning.svg') no-repeat 10px center;
+  }
+}
+
+/*=====  End of Formularios App  ======*/

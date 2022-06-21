@@ -8,14 +8,20 @@ import { UsersPageRoutingModule } from './users-routing.module';
 
 import { UsersPage } from './users.page';
 import { ComponentsModule } from '../../../components/components.module';
+import { CreateUserModalPage } from '../../../components/create-user-modal/create-user-modal.page';
+import { CreateUserModalPageModule } from '../../../components/create-user-modal/create-user-modal.module';
 
 @NgModule({
+  entryComponents: [
+    CreateUserModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     UsersPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    CreateUserModalPageModule
   ],
   declarations: [UsersPage]
 })
