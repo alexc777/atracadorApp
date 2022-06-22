@@ -92,7 +92,14 @@ export class CreateUserModalPage implements OnInit {
 
     console.log('Crear: ', jsonUser);
 
-    // const l = this.uiServece.presentLoading();
+    const l = this.uiServece.presentLoading();
+    setTimeout(() => {
+      this.uiServece.presentToastSuccess('Usuario creado');
+      this.uiServece.dismissLoading(l);
+      this.isRefresh = true;
+      this.close();
+    }, 1000);
+
     // this.userService.createUser(jsonUser).subscribe(() => {
     //   this.uiServece.presentToastSuccess('Usuario creado');
     //   this.uiServece.dismissLoading(l);
@@ -128,6 +135,14 @@ export class CreateUserModalPage implements OnInit {
     }
 
     console.log('Editar: ', jsonEdit);
+
+    const l = this.uiServece.presentLoading();
+    setTimeout(() => {
+      this.uiServece.presentToastSuccess('Usuario editado');
+      this.uiServece.dismissLoading(l);
+      this.isRefresh = true;
+      this.close();
+    }, 1000);
 
     // const l = this.uiServece.presentLoading();
     // this.userService.editUser(jsonEdit).subscribe(() => {

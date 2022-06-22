@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CreateUserModalPage } from '../../../components/create-user-modal/create-user-modal.page';
+import { UiService } from '../../../services/shared/UI/ui.service';
 
 @Component({
   selector: 'app-users',
@@ -33,7 +34,7 @@ export class UsersPage implements OnInit {
     }
   ];
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService) { }
 
   ngOnInit() {
   }
@@ -51,13 +52,52 @@ export class UsersPage implements OnInit {
     });
     await modal.present();
 
-    modal.onDidDismiss().then((data: any) => {
-      console.log(data);
-      // if (data.data.refresh) {
-      //   console.log('recargar');
-      //   // this.getListClients();
-      // }
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      data.refresh ? console.log('recargar') : '';
+    }
+  }
+
+  async deleteUser(user: any) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar Usuario',
+      message: `¿Estas seguro de eliminar al usuario <strong>${user.first_name} ${user.last_name}</strong>?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {}
+        },
+        {
+          text: 'Eliminar usuario',
+          handler: () => {
+            this.confirmDetele(user.id_user);
+          }
+        }
+      ]
     });
+
+    await alert.present();
+  }
+
+  confirmDetele(id_user: any) {
+    console.log(id_user);
+    const l = this.uiService.presentLoading();
+    setTimeout(() => {
+      this.uiService.dismissLoading(l);
+      this.uiService.presentToastInfo('Usuario eliminado');
+    }, 1000);
+
+    // this.clientService.toogleStatusClient(id_user).subscribe(() => {
+    //   this.uiService.dismissLoading(l);
+    //   this.getListClients();
+    // }, (error: IErrorResponse) => {
+    //     this.uiService.dismissLoading(l);
+    //     if (!this.uiService.presentAlert) {
+    //       this.uiService.presentAlert = true;
+    //       this.uiService.alertInfo('Error al eliminar cliente', error.errorDescription);
+    //     }
+    // });
   }
 
 }
