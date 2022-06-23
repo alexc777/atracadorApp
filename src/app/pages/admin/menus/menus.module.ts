@@ -8,14 +8,20 @@ import { MenusPageRoutingModule } from './menus-routing.module';
 
 import { MenusPage } from './menus.page';
 import { ComponentsModule } from '../../../components/components.module';
+import { CreateMenuModalPage } from '../../../components/create-menu-modal/create-menu-modal.page';
+import { CreateMenuModalPageModule } from '../../../components/create-menu-modal/create-menu-modal.module';
 
 @NgModule({
+  entryComponents: [
+    CreateMenuModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     MenusPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    CreateMenuModalPageModule
   ],
   declarations: [MenusPage]
 })

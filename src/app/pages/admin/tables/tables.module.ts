@@ -8,14 +8,20 @@ import { TablesPageRoutingModule } from './tables-routing.module';
 
 import { TablesPage } from './tables.page';
 import { ComponentsModule } from '../../../components/components.module';
+import { CreateTableModalPage } from '../../../components/create-table-modal/create-table-modal.page';
+import { CreateTableModalPageModule } from '../../../components/create-table-modal/create-table-modal.module';
 
 @NgModule({
+  entryComponents: [
+    CreateTableModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     TablesPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    CreateTableModalPageModule
   ],
   declarations: [TablesPage]
 })

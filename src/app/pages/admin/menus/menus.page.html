@@ -3,14 +3,15 @@
 <ion-content class="ion-padding bg_app">
 
   <div class="container">
-    <ion-card  mode="ios">
+    <ion-card  mode="ios" *ngFor="let menu of arrMenus">
       <ion-card-header>
-        <ion-card-title>Caldo de pezcado</ion-card-title>
+        <ion-card-title> {{ menu.name }} </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <ion-badge color="success" mode="ios" class="ion-margin-end">Disponible</ion-badge>
-        <ion-badge color="warning" mode="ios">Precio: Q45.00</ion-badge>
+        <ion-badge color="success" mode="ios" class="ion-margin-end" *ngIf="menu.status === 1">Disponible</ion-badge>
+        <ion-badge color="danger" mode="ios" class="ion-margin-end" *ngIf="menu.status === 2">Agotado</ion-badge>
+        <ion-badge color="warning" mode="ios">Precio: Q{{ menu.price | number:'.2-2'}}</ion-badge>
 
         <ion-accordion-group mode="ios">
           <ion-accordion  mode="ios">
@@ -20,7 +21,7 @@
 
             <ion-list slot="content">
               <ion-item class="description_menu">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum, quasi vitae laudantium, tenetur odit officiis praesentium id itaque fugit labore commodi! Modi maiores, illum voluptate nulla dicta quam ad?
+                {{ menu.description }}
               </ion-item>
             </ion-list>
           </ion-accordion>
@@ -32,147 +33,12 @@
 
             <ion-list slot="content">
               <div class="center_buttons">
-                <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom">
+                <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom" (click)="showCreate(menu)">
                   <ion-icon slot="start" name="create-outline"></ion-icon>
                   Editar
                 </ion-button>
 
-                <ion-button fill="outline" shape="round" size="small" color="danger" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="trash-outline"></ion-icon>
-                  Eliminar
-                </ion-button>
-              </div>
-            </ion-list>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card  mode="ios">
-      <ion-card-header>
-        <ion-card-title>Mojarra frita</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-badge color="danger" mode="ios" class="ion-margin-end">Agotado</ion-badge>
-        <ion-badge color="warning" mode="ios">Precio: Q25.00</ion-badge>
-
-        <ion-accordion-group mode="ios">
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Descripción</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <ion-item class="description_menu">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum, quasi vitae laudantium, tenetur odit officiis praesentium id itaque fugit labore commodi! Modi maiores, illum voluptate nulla dicta quam ad?
-              </ion-item>
-            </ion-list>
-          </ion-accordion>
-
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Opciones</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <div class="center_buttons">
-                <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="create-outline"></ion-icon>
-                  Editar
-                </ion-button>
-
-                <ion-button fill="outline" shape="round" size="small" color="danger" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="trash-outline"></ion-icon>
-                  Eliminar
-                </ion-button>
-              </div>
-            </ion-list>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card  mode="ios">
-      <ion-card-header>
-        <ion-card-title>Camarones al ajillo</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-badge color="success" mode="ios" class="ion-margin-end">Disponible</ion-badge>
-        <ion-badge color="warning" mode="ios">Precio: Q60.00</ion-badge>
-
-        <ion-accordion-group mode="ios">
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Descripción</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <ion-item class="description_menu">
-                Delicioso plato de 30 camarones sasonados y preparados con cebolla y salsa de ajo...
-              </ion-item>
-            </ion-list>
-          </ion-accordion>
-
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Opciones</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <div class="center_buttons">
-                <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="create-outline"></ion-icon>
-                  Editar
-                </ion-button>
-
-                <ion-button fill="outline" shape="round" size="small" color="danger" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="trash-outline"></ion-icon>
-                  Eliminar
-                </ion-button>
-              </div>
-            </ion-list>
-          </ion-accordion>
-        </ion-accordion-group>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card  mode="ios">
-      <ion-card-header>
-        <ion-card-title>Michelada con camarones</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-badge color="danger" mode="ios" class="ion-margin-end">Agotado</ion-badge>
-        <ion-badge color="warning" mode="ios">Precio: Q15.00</ion-badge>
-
-        <ion-accordion-group mode="ios">
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Descripción</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <ion-item class="description_menu">
-                Bebida preparada, con marinero, gallo y 4 camarones al rededor del tarro.
-              </ion-item>
-            </ion-list>
-          </ion-accordion>
-
-          <ion-accordion  mode="ios">
-            <ion-item slot="header">
-              <ion-label>Opciones</ion-label>
-            </ion-item>
-
-            <ion-list slot="content">
-              <div class="center_buttons">
-                <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom">
-                  <ion-icon slot="start" name="create-outline"></ion-icon>
-                  Editar
-                </ion-button>
-
-                <ion-button fill="outline" shape="round" size="small" color="danger" class="ion-margin-top ion-margin-bottom">
+                <ion-button fill="outline" shape="round" size="small" color="danger" class="ion-margin-top ion-margin-bottom" (click)="deleteMenu(menu)">
                   <ion-icon slot="start" name="trash-outline"></ion-icon>
                   Eliminar
                 </ion-button>
@@ -185,7 +51,7 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button (click)="showCreate()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

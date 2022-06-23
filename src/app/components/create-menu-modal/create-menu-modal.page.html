@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border border_header">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" shape="round" color="light" class="ion-text-capitalize" (click)="createMenu()" *ngIf="!editMenu">
+        Crear
+      </ion-button>
+
+      <ion-button fill="clear" shape="round" color="light" class="ion-text-capitalize" (click)="sendEditTable()" *ngIf="editMenu">
+        Editar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="text_action" *ngIf="!editMenu">
+    Nuevo Usuario
+  </h1>
+
+  <h1 class="text_action" *ngIf="editMenu">
+    Editar Usuario
+  </h1>
+
+  <form class="form_app top_form" [formGroup]="frmMenu">
+    <div class="title_input m_from" *ngIf="editMenu">
+      <label>Estado</label>
+    </div>
+    <ion-item class="container_selet" *ngIf="editMenu">
+      <ion-select [interfaceOptions]="selectOptions" okText="Ok" cancelText="Cancelar" name="status" formControlName="status" required>
+          <ion-select-option *ngFor="let state of arrEstado" [value]="state.id">
+            {{ state.name }}
+          </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('status')">Estado requerido</span>
+
+    <div class="title_input m_from">
+      <label>Nombre</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="text" autocorrect="on" class="form_input" name="name" formControlName="name"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('name')">Nombre requerido</span>
+
+    <div class="title_input m_from">
+      <label>Descripción</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="text" autocorrect="on" class="form_input" name="description" formControlName="description"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('description')">Descripción requerida</span>
+
+    <div class="title_input m_from">
+      <label>Precio</label>
+    </div>
+    <ion-item lines="none">
+      <ion-input type="number" inputmode="decimal" autocorrect="on" class="form_input" name="price" formControlName="price"></ion-input>
+    </ion-item>
+    <span class="frm-error" *ngIf="validUser('price')">Precio requerido</span>
+  </form>
+
+</ion-content>
