@@ -11,6 +11,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
   },
+  // administrador
   {
     path: 'dashboard',
     loadChildren: () => import('./pages/admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
@@ -30,6 +31,23 @@ const routes: Routes = [
   {
     path: 'orders',
     loadChildren: () => import('./pages/admin/orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  // operativo
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/operational/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'tables-list',
+    loadChildren: () => import('./pages/operational/tables-list/tables-list.module').then( m => m.TablesListPageModule)
+  },
+  {
+    path: 'menus-list',
+    loadChildren: () => import('./pages/operational/menus-list/menus-list.module').then( m => m.MenusListPageModule)
+  },
+  {
+    path: 'orders-list',
+    loadChildren: () => import('./pages/operational/orders-list/orders-list.module').then( m => m.OrdersListPageModule)
   },
 ];
 

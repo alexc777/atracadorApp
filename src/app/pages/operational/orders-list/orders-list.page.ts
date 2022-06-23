@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.page.html',
-  styleUrls: ['./orders.page.scss'],
+  selector: 'app-orders-list',
+  templateUrl: './orders-list.page.html',
+  styleUrls: ['./orders-list.page.scss'],
 })
-export class OrdersPage implements OnInit {
+export class OrdersListPage implements OnInit {
 
   arrOrders: any[] = [
     {
@@ -94,9 +95,47 @@ export class OrdersPage implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private actionSheetController: ActionSheetController) { }
 
   ngOnInit() {
+  }
+
+  async changeState(order: any) {
+
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Cambiar Estado',
+      buttons: [
+        {
+          text: 'Orden entregada',
+          handler: () => {
+            // status 2
+            console.log('entregada: ', order);
+          }
+        },
+        {
+          text: 'Orden Completada',
+          handler: () => {
+            // status 3
+            console.log('completada: ', order);
+          }
+        },
+        {
+          text: 'Orden Cancelada',
+          handler: () => {
+            // status 4
+            console.log('cacelada: ', order);
+          }
+        },
+        {
+          text: 'Salir',
+          role: 'cancel',
+          handler: () => {}
+        }
+      ]
+    });
+
+    await actionSheet.present();
+
   }
 
 }

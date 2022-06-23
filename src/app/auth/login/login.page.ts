@@ -41,7 +41,12 @@ export class LoginPage implements OnInit {
     const l = this.uiService.presentLoading();
     setTimeout(() => {
       this.uiService.dismissLoading(l);
-      this.navCtrl.navigateRoot(['/dashboard'],{ replaceUrl: true, animated: true });
+
+      if (data.email === 'admin@elatracador.com') {
+        this.navCtrl.navigateRoot(['/dashboard'],{ replaceUrl: true, animated: true });
+      } else {
+        this.navCtrl.navigateRoot(['/home'],{ replaceUrl: true, animated: true });
+      }
     }, 1500);
   }
 

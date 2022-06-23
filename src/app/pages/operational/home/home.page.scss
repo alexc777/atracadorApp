@@ -1,0 +1,27 @@
+.card_tools {
+  float: left;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 5px;
+  margin-bottom: 15px;
+  background: #FFFFFF;
+
+  .icon_tools {
+    float: left;
+    color: var(--ion-color-primary);
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 15px;
+    text-align: center;
+  }
+}

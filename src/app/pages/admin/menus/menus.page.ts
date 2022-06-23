@@ -39,7 +39,7 @@ export class MenusPage implements OnInit {
         "price": 15,
         "status": 2,
     },
-]
+  ]
 
   constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService) { }
 

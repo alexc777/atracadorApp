@@ -1,0 +1,55 @@
+<app-header titulo="Ordenes"></app-header>
+
+<ion-content class="ion-padding bg_app">
+
+  <div class="container">
+    <ion-card  mode="ios" *ngFor="let order of arrOrders">
+      <ion-card-header>
+        <ion-card-title>Orden #{{ order.id_order }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-badge color="medium" mode="ios" class="spacer">Mesa: #{{ order.id_table }}</ion-badge>
+        <ion-badge color="medium" mode="ios" class="spacer">Total: Q{{ order.total | number:'.2-2' }}</ion-badge>
+
+        <ion-badge color="warning" mode="ios" class="spacer" *ngIf="order.status === 1">En preparación</ion-badge>
+        <ion-badge color="primary" mode="ios" class="spacer" *ngIf="order.status === 2">Entregada</ion-badge>
+        <ion-badge color="success" mode="ios" class="spacer" *ngIf="order.status === 3">Completada</ion-badge>
+        <ion-badge color="danger" mode="ios" class="spacer"  *ngIf="order.status === 4">Cancelada</ion-badge>
+
+        <div class="center_buttons">
+          <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom" (click)="changeState(order)">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Cambiar estado
+          </ion-button>
+        </div>
+
+        <ion-accordion-group mode="ios">
+          <ion-accordion  mode="ios">
+            <ion-item slot="header">
+              <ion-label>Observaciones</ion-label>
+            </ion-item>
+
+            <ion-list slot="content">
+              <ion-item class="description_menu">
+                {{ order.comments }}
+              </ion-item>
+            </ion-list>
+          </ion-accordion>
+
+          <ion-accordion  mode="ios" *ngFor="let menu of order.detail">
+            <ion-item slot="header">
+              <ion-label> {{ menu.name }} </ion-label>
+            </ion-item>
+
+            <ion-list slot="content">
+              <p class="ion-margin-top ion-margin-bottom">
+                Precio: Q{{ menu.price | number:'.2-2' }} | Cantidad: {{ menu.quantity }} | Subtotal: Q{{ menu.sub_total | number:'.2-2' }}
+              </p>
+            </ion-list>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -40,7 +40,7 @@ export class TablesPage implements OnInit {
       "capacity": 7,
       "status": 2
     },
-]
+  ]
 
   constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService) { }
 
