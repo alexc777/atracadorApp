@@ -36,3 +36,9 @@ export interface IDetail {
   quantity: number;
   sub_total: number;
 }
+
+export interface IUpdateOrder {
+  id_order: number;
+  status: number;
+  user_action: number;
+}

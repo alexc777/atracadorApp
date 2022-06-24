@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { UiService } from '../../../../services/shared/UI/ui.service';
+import { TablesService } from '../../../../services/tables/tables.service';
+import { IListTables } from '../../../../core/interfaces/table.inteface';
+import { IErrorResponse } from '../../../../core/interfaces/errorsResponse.interface';
 
 @Component({
   selector: 'app-select-table',
@@ -9,40 +12,28 @@ import { UiService } from '../../../../services/shared/UI/ui.service';
 })
 export class SelectTablePage implements OnInit {
 
-  arrTables: any[]= [
-    {
-        "id_table": 1,
-        "name": "Mesa #1",
-        "number_table": 5,
-        "capacity": 5,
-        "status": 1
-    },
-    {
-        "id_table": 2,
-        "name": "Mesa #2",
-        "number_table": 6,
-        "capacity": 8,
-        "status": 2
-    },
-    {
-      "id_table": 3,
-      "name": "Mesa #3",
-      "number_table": 3,
-      "capacity": 4,
-      "status": 1
-    },
-    {
-      "id_table": 4,
-      "name": "Mesa #4",
-      "number_table": 4,
-      "capacity": 7,
-      "status": 2
-    },
-  ];
+  public id_action: any;
+  arrTables: IListTables[]= [];
 
-  constructor(private routerNav: Router, private uiService: UiService) { }
+  constructor(private routerNav: Router, private uiService: UiService, private routerP: ActivatedRoute, private tableService: TablesService) { }
 
   ngOnInit() {
+    this.routerP.params.subscribe(params => {
+      this.id_action = params.id;
+    });
+
+    this.getTables();
+  }
+
+  getTables() {
+    const l = this.uiService.presentLoading();
+    this.tableService.getTables().subscribe((response: IListTables[]) => {
+      this.uiService.dismissLoading(l);
+      this.arrTables = response;
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
   selectTable(table:any) {
@@ -51,7 +42,7 @@ export class SelectTablePage implements OnInit {
     }
 
     const navigationExtras: NavigationExtras = { queryParams: {datosOrder: JSON.stringify(table)} };
-    this.routerNav.navigate(['select-menus'], navigationExtras);
+    this.routerNav.navigate([`select-menus/${this.id_action}`], navigationExtras);
   }
 
 }

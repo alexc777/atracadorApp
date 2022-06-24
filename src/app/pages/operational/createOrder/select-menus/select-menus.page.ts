@@ -4,6 +4,7 @@ import { CreateOrderService } from '../../../../services/orders/create-order.ser
 import { UiService } from '../../../../services/shared/UI/ui.service';
 import { ICreateOrder, IMenuOrder } from '../../../../core/interfaces/orders.interface';
 import { AlertController, NavController } from '@ionic/angular';
+import { IErrorResponse } from '../../../../core/interfaces/errorsResponse.interface';
 
 @Component({
   selector: 'app-select-menus',
@@ -12,6 +13,8 @@ import { AlertController, NavController } from '@ionic/angular';
 })
 export class SelectMenusPage implements OnInit {
 
+  public id_action: any;
+
   arrMenus:any[] = [];
 
   infoOrder: any = {};
@@ -19,7 +22,7 @@ export class SelectMenusPage implements OnInit {
   comments:any = 'N/A';
 
   constructor(private router: ActivatedRoute, public createOrderService: CreateOrderService, private UIServices: UiService,
-              private alertController: AlertController, public navCtrl: NavController) { }
+              private alertController: AlertController, public navCtrl: NavController, private routerP: ActivatedRoute) { }
 
   ngOnInit() {
     this.router.queryParams.subscribe(params => {
@@ -28,11 +31,22 @@ export class SelectMenusPage implements OnInit {
       }
     });
 
+    this.routerP.params.subscribe(params => {
+      this.id_action = params.id;
+    });
+
     this.getMenus();
   }
 
   getMenus() {
-    this.arrMenus = this.createOrderService.getProductos();
+    const l = this.UIServices.presentLoading();
+    this.createOrderService.getMenus().subscribe((response: any[]) => {
+      this.UIServices.dismissLoading(l);
+      this.arrMenus = response;
+    }, (error: IErrorResponse) => {
+      this.UIServices.dismissLoading(l);
+      this.UIServices.alertInfo('Error', error.errorDescription);
+    });
   }
 
   activeAgregarProducto(menu: any) {
@@ -72,36 +86,35 @@ export class SelectMenusPage implements OnInit {
   }
 
   createOrder() {
-
     const detalle: any = [];
     let detalles: any = {};
 
     this.createOrderService.carrito.forEach((element: any) => {
-        detalles = {};
-        detalles.id_menu = element.id_menu,
-        detalles.price = element.price,
-        detalles.quantity = element.cantidadProducto,
-        detalles.sub_total = (element.price * element.cantidadProducto),
-        detalle.push(detalles);
+      detalles = {};
+      detalles.id_menu = element.id_menu,
+      detalles.price = element.price,
+      detalles.quantity = element.cantidadProducto,
+      detalles.sub_total = (element.price * element.cantidadProducto),
+      detalle.push(detalles);
     });
 
     const jsonOrder: ICreateOrder = {
       comments: this.comments ,
       total: this.createOrderService.totalVenta,
       id_table: this.infoOrder.id_table,
-      id_user: 3,
-      user_action: 3,
+      id_user: this.id_action,
+      user_action: this.id_action,
       menus: detalle
     };
 
-    console.log('Crear orden: ', jsonOrder);
-
     const l = this.UIServices.presentLoading();
-    setTimeout(() => {
+    this.createOrderService.createOrder(jsonOrder).subscribe(() => {
       this.UIServices.dismissLoading(l);
       this.alertOrder();
-    }, 1000);
-
+    }, (error: IErrorResponse) => {
+      this.UIServices.dismissLoading(l);
+      this.UIServices.alertInfo('Error', error.errorDescription);
+    });
   }
 
   async alertOrder() {
@@ -112,7 +125,7 @@ export class SelectMenusPage implements OnInit {
         {
           text: 'Aceptar',
           handler: () => {
-            this.navCtrl.navigateRoot(['/home'],{ replaceUrl: true, animated: true });
+            this.navCtrl.navigateRoot([`/home/${this.id_action}`],{ replaceUrl: true, animated: true });
           }
         }
       ]
@@ -120,7 +133,5 @@ export class SelectMenusPage implements OnInit {
 
     await alert.present();
   }
-
-
 
 }

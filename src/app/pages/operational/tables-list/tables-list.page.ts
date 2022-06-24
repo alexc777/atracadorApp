@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UiService } from '../../../services/shared/UI/ui.service';
+import { TablesService } from '../../../services/tables/tables.service';
+import { IErrorResponse } from '../../../core/interfaces/errorsResponse.interface';
+import { IListTables } from '../../../core/interfaces/table.inteface';
 
 @Component({
   selector: 'app-tables-list',
@@ -7,40 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TablesListPage implements OnInit {
 
-  arrTables: any[]= [
-    {
-        "id_table": 1,
-        "name": "Mesa #1",
-        "number_table": 5,
-        "capacity": 5,
-        "status": 1
-    },
-    {
-        "id_table": 2,
-        "name": "Mesa #2",
-        "number_table": 6,
-        "capacity": 8,
-        "status": 2
-    },
-    {
-      "id_table": 3,
-      "name": "Mesa #3",
-      "number_table": 3,
-      "capacity": 4,
-      "status": 1
-    },
-    {
-      "id_table": 4,
-      "name": "Mesa #4",
-      "number_table": 4,
-      "capacity": 7,
-      "status": 2
-    },
-  ]
+  arrTables: IListTables[]= []
 
-  constructor() { }
+  constructor(private uiService: UiService, private tableService: TablesService) { }
 
   ngOnInit() {
+    this.getTables();
+  }
+
+  getTables() {
+    const l = this.uiService.presentLoading();
+    this.tableService.getTables().subscribe((response: IListTables[]) => {
+      this.uiService.dismissLoading(l);
+      this.arrTables = response;
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
 }

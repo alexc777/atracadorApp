@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
+import { CreateOrderService } from '../../../services/orders/create-order.service';
+import { UiService } from '../../../services/shared/UI/ui.service';
+import { IListOrders, IUpdateOrder } from '../../../core/interfaces/orders.interface';
+import { IErrorResponse } from '../../../core/interfaces/errorsResponse.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-orders-list',
@@ -8,122 +13,51 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class OrdersListPage implements OnInit {
 
-  arrOrders: any[] = [
-    {
-        "id_order": 1,
-        "comments": "El arroz del caldo en un plato aparte.",
-        "total": 100,
-        "status": 1,
-        "id_table": 2,
-        "detail": [
-            {
-                "name": "Caldo de pezcado",
-                "price": 50,
-                "quantity": 1,
-                "sub_total": 50
-            },
-            {
-                "name": "Mojarra frita",
-                "price": 50,
-                "quantity": 1,
-                "sub_total": 50
-            }
-        ]
-    },
-    {
-        "id_order": 5,
-        "comments": "N/A",
-        "total": 200,
-        "status": 2,
-        "id_table": 4,
-        "detail": [
-            {
-                "name": "Camarones al ajillo",
-                "price": 50,
-                "quantity": 2,
-                "sub_total": 50
-            },
-            {
-                "name": "Michelada con camarones",
-                "price": 50,
-                "quantity": 1,
-                "sub_total": 50
-            }
-        ]
-    },
-    {
-      "id_order": 11,
-      "comments": "Limón extra para la mojarra",
-      "total": 200,
-      "status": 3,
-      "id_table": 3,
-      "detail": [
-          {
-              "name": "Michelada con camarones",
-              "price": 50,
-              "quantity": 2,
-              "sub_total": 50
-          },
-          {
-              "name": "Mojarra frita",
-              "price": 50,
-              "quantity": 1,
-              "sub_total": 50
-          }
-      ]
-    },
-    {
-      "id_order": 13,
-      "comments": "Camarones de las micheladas en un plato aparte",
-      "total": 200,
-      "status": 4,
-      "id_table": 1,
-      "detail": [
-          {
-              "name": "Caldo de pezcado",
-              "price": 50,
-              "quantity": 2,
-              "sub_total": 50
-          },
-          {
-              "name": "Michelada con camarones",
-              "price": 50,
-              "quantity": 1,
-              "sub_total": 50
-          }
-      ]
-    }
-  ]
+  public id_action: any;
+  arrOrders: IListOrders[] = [];
 
-  constructor(private actionSheetController: ActionSheetController) { }
+  constructor(private actionSheetController: ActionSheetController, private uiService: UiService, private orderService: CreateOrderService,
+              private routerP: ActivatedRoute) { }
 
   ngOnInit() {
+    this.routerP.params.subscribe(params => {
+      this.id_action = params.id;
+    });
+
+    this.getOrders();
+  }
+
+  getOrders() {
+    const l = this.uiService.presentLoading();
+    this.orderService.getOrders().subscribe((response: IListOrders[]) => {
+      this.uiService.dismissLoading(l);
+      this.arrOrders = response;
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
   async changeState(order: any) {
-
     const actionSheet = await this.actionSheetController.create({
       header: 'Cambiar Estado',
       buttons: [
         {
           text: 'Orden Entregada',
           handler: () => {
-            // status 2
-            console.log('entregada: ', order);
+            this.editStatus(order, 2);
           }
         },
         {
           text: 'Orden Completada',
           handler: () => {
-            // status 3
-            console.log('completada: ', order);
+            this.editStatus(order, 3);
           }
         },
         {
           text: 'Orden Cancelada',
           handler: () => {
-            // status 4
-            console.log('cacelada: ', order);
+            this.editStatus(order, 4);
           }
         },
         {
@@ -135,7 +69,27 @@ export class OrdersListPage implements OnInit {
     });
 
     await actionSheet.present();
+  }
 
+  editStatus(order: any, status: number) {
+    const jsonEdit: IUpdateOrder = {
+      id_order: order.id_order,
+      status: status,
+      user_action: this.id_action
+    }
+
+    const l = this.uiService.presentLoading();
+    this.orderService.editStatusOrder(jsonEdit).subscribe(() => {
+      this.uiService.presentToastSuccess('Orden Actualizada');
+      this.uiService.dismissLoading(l);
+      this.getOrders();
+    },(error: any) => {
+      this.uiService.dismissLoading(l);
+      if (!this.uiService.presentAlert) {
+        this.uiService.presentAlert = true;
+        this.uiService.alertInfo('Error', error.errorDescription);
+      }
+    })
   }
 
 }

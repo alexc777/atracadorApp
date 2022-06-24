@@ -12,6 +12,8 @@ export enum EndPoint {
     createMenu = '/api/create/menu',
     editMenu = '/api/edit/menu',
     deleteMenu = '/api/delete/menu',
+    editOrder = '/api/update/status/ordenes',
+    createOrder = '/api/create/ordenes',
   /*=====  End of APIS POST method  ======*/
 
   /*=============================================

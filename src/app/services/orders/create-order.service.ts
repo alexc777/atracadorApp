@@ -3,44 +3,16 @@ import { ErrorsService } from '../shared/handleError/errors.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { EndPoint } from '../end-point-share';
-import { IResponseOrder } from '../../core/interfaces/orders.interface';
+import { IResponseOrder, IUpdateOrder, ICreateOrder } from '../../core/interfaces/orders.interface';
 import { catchError, map } from 'rxjs/operators';
+import { IResponseMenu } from '../../core/interfaces/menu.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateOrderService {
 
-  menus: any[] = [
-    {
-        "id_menu": 1,
-        "name": "Caldo de pezcado",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum, quasi vitae laudantium, tenetur odit officiis praesentium id itaque fugit labore commodi! Modi maiores, illum voluptate nulla dicta quam ad?",
-        "price": 45,
-        "status": 1
-    },
-    {
-        "id_menu": 2,
-        "name": "Mojarra frita",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum, quasi vitae laudantium, tenetur odit officiis praesentium id itaque fugit labore commodi! Modi maiores, illum voluptate nulla dicta quam ad?",
-        "price": 25,
-        "status": 2
-    },
-    {
-        "id_menu": 3,
-        "name": "Camarones al ajillo",
-        "description": "Delicioso plato de 30 camarones sasonados y preparados con cebolla y salsa de ajo...",
-        "price": 60,
-        "status": 1,
-    },
-    {
-        "id_menu": 4,
-        "name": "Michelada con camarones",
-        "description": "Bebida preparada, con marinero, gallo y 4 camarones al rededor del tarro.",
-        "price": 15,
-        "status": 2,
-    },
-  ];
+  menus: any[] = [];
 
   carrito: any[] = [];
   productoRepetido = false;
@@ -64,31 +36,29 @@ export class CreateOrderService {
     );
   }
 
-  getProductos() {
-    this.menus.forEach(element => {
-      element.showAgregar = true;
-      element.showButtonsAdd = false;
-      element.cantidadProducto = 0;
-    });
+  editStatusOrder(json: IUpdateOrder) {
+    const url = environment.api + EndPoint.editOrder;
 
-    return this.menus;
+    return this.http.post(url, json, this.headers).pipe(
+      map(() => {}),catchError((err: any) => this.errorService.handleError(err))
+    );
+  }
 
-    // const url = this.auth.validApi.url + EndPoint.getProductos;
+  getMenus() {
+    const url = environment.api + EndPoint.getMenus;
 
-    // return this.http.post(url, { idenempresa: this.userService.apikeyEmpresa.idenEmpresa, pagina: 1 }, this.headersPost).pipe(
-    //   map((resp: any) => {
-    //     const respProds = resp;
-    //     this.productos = respProds.datos;
+    return this.http.get(url, this.headers).pipe(
+      map((resp: IResponseMenu) => {
+        this.menus = resp.data;
+        this.menus.forEach(element => {
+          element.showAgregar = true;
+          element.showButtonsAdd = false;
+          element.cantidadProducto = 0;
+        });
 
-    //     this.productos.forEach(element => {
-    //       element.showAgregar = true;
-    //       element.showButtonsAdd = false;
-    //       element.cantidadProducto = 0;
-    //     });
-    //   }), catchError((err) => {
-    //     return this.errorService.handleError(err);
-    //   })
-    // );
+        return this.menus;
+      }),catchError((err: any) => this.errorService.handleError(err))
+    );
   }
 
   /**
@@ -139,5 +109,13 @@ export class CreateOrderService {
     this.carrito = [];
     this.productoRepetido = false;
     this.totalVenta = 0;
+  }
+
+  createOrder(json: ICreateOrder) {
+    const url = environment.api + EndPoint.createOrder;
+
+    return this.http.post(url, json, this.headers).pipe(
+      map(() => {}),catchError((err: any) => this.errorService.handleError(err))
+    );
   }
 }
