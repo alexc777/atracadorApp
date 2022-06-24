@@ -3,6 +3,7 @@ import { UiService } from '../../services/shared/UI/ui.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { IParamsMenu, IEditMenu } from '../../core/interfaces/menu.interface';
+import { MenusService } from '../../services/menus/menus.service';
 
 @Component({
   selector: 'app-create-menu-modal',
@@ -34,7 +35,7 @@ export class CreateMenuModalPage implements OnInit {
   editMenu = false;
   frmMenu: FormGroup;
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService) { }
+  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService, private menuService: MenusService) { }
 
   ngOnInit() {
     this.createFrmMenu();
@@ -86,29 +87,19 @@ export class CreateMenuModalPage implements OnInit {
       price: infoMenu.price
     }
 
-    console.log('Crear: ', jsonMenu);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.menuService.createMenu(jsonMenu).subscribe(() => {
       this.uiServece.presentToastSuccess('Menú Creado');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // this.userService.createUser(jsonUser).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario creado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // });
+    },(error: any) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    });
   }
 
   sendEditTable() {
@@ -129,30 +120,19 @@ export class CreateMenuModalPage implements OnInit {
       status: infoMenu.status
     }
 
-    console.log('Editar: ', jsonEdit);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.menuService.editMenu(jsonEdit).subscribe(() => {
       this.uiServece.presentToastSuccess('Menú Editado');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // const l = this.uiServece.presentLoading();
-    // this.userService.editUser(jsonEdit).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario editado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // })
+    },(error: any) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    })
 
   }
 

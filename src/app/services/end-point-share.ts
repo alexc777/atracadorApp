@@ -9,6 +9,9 @@ export enum EndPoint {
     createTable = '/api/create/table',
     editTable = '/api/edit/table',
     deleteTable = '/api/delete/table',
+    createMenu = '/api/create/menu',
+    editMenu = '/api/edit/menu',
+    deleteMenu = '/api/delete/menu',
   /*=====  End of APIS POST method  ======*/
 
   /*=============================================
@@ -17,5 +20,6 @@ export enum EndPoint {
     getRoles = '/api/get/roles',
     getUsers = '/api/get/users',
     getTables = '/api/get/table',
+    getMenus = '/api/get/menu',
   /*=====  End of APIS GET method  ======*/
 }

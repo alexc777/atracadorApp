@@ -107,7 +107,7 @@ export class SelectMenusPage implements OnInit {
   async alertOrder() {
     const alert = await this.alertController.create({
       header: 'Aviso',
-      message: 'Ordern Creada',
+      message: 'Orden Creada',
       buttons: [
         {
           text: 'Aceptar',
