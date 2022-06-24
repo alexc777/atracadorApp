@@ -49,14 +49,14 @@ export class MenusListPage implements OnInit {
       header: 'Cambiar Estado',
       buttons: [
         {
-          text: 'Menú agotado',
+          text: 'Menú Agotado',
           role: 'destructive',
           handler: () => {
             console.log('menu desable: ', menu);
           }
         },
         {
-          text: 'Menú disponible',
+          text: 'Menú Disponible',
           handler: () => {
             console.log('Habilitar: ', menu);
           }

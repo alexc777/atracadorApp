@@ -1,0 +1,17 @@
+<app-header titulo="Seleccionar Mesa"></app-header>
+
+<ion-content class="ion-padding bg_app">
+
+  <div class="container">
+    <ion-list class="list_globals" lines="none">
+      <ion-item *ngFor="let table of arrTables" (click)="selectTable(table)">
+        <ion-label>Mesa #{{ table.id_table }}</ion-label>
+
+        <ion-badge slot="end" color="success" mode="ios" *ngIf="table.status === 1">Disponible</ion-badge>
+        <ion-badge slot="end" color="danger" mode="ios" *ngIf="table.status === 2">Ocupada</ion-badge>
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>
+

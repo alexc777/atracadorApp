@@ -106,7 +106,7 @@ export class OrdersListPage implements OnInit {
       header: 'Cambiar Estado',
       buttons: [
         {
-          text: 'Orden entregada',
+          text: 'Orden Entregada',
           handler: () => {
             // status 2
             console.log('entregada: ', order);

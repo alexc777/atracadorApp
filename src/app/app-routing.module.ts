@@ -49,6 +49,14 @@ const routes: Routes = [
     path: 'orders-list',
     loadChildren: () => import('./pages/operational/orders-list/orders-list.module').then( m => m.OrdersListPageModule)
   },
+  {
+    path: 'select-table',
+    loadChildren: () => import('./pages/operational/createOrder/select-table/select-table.module').then( m => m.SelectTablePageModule)
+  },
+  {
+    path: 'select-menus',
+    loadChildren: () => import('./pages/operational/createOrder/select-menus/select-menus.module').then( m => m.SelectMenusPageModule)
+  },
 ];
 
 @NgModule({
