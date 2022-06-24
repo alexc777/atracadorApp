@@ -21,5 +21,6 @@ export enum EndPoint {
     getUsers = '/api/get/users',
     getTables = '/api/get/table',
     getMenus = '/api/get/menu',
+    getOrders = '/api/get/ordenes',
   /*=====  End of APIS GET method  ======*/
 }

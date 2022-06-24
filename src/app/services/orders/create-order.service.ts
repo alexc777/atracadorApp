@@ -1,4 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ErrorsService } from '../shared/handleError/errors.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { EndPoint } from '../end-point-share';
+import { IResponseOrder } from '../../core/interfaces/orders.interface';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +46,23 @@ export class CreateOrderService {
   productoRepetido = false;
   totalVenta = 0;
 
-  constructor() { }
+  constructor(private http: HttpClient, private errorService: ErrorsService) { }
+
+  get headers() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+  }
+
+  getOrders() {
+    const url = environment.api + EndPoint.getOrders;
+
+    return this.http.get(url, this.headers).pipe(
+      map((resp: IResponseOrder) => resp.data),catchError((err: any) => this.errorService.handleError(err))
+    );
+  }
 
   getProductos() {
     this.menus.forEach(element => {

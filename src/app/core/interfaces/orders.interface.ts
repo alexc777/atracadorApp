@@ -13,3 +13,26 @@ export interface IMenuOrder {
   quantity: number;
   sub_total: number;
 }
+
+export interface IResponseOrder {
+  error: boolean;
+  data: IListOrders[];
+  code: number;
+}
+
+export interface IListOrders {
+  id_order: number;
+  comments: string;
+  total: number;
+  status: number;
+  id_table: number;
+  detail: IDetail[];
+}
+
+export interface IDetail {
+  id_order: number;
+  name: string;
+  price: number;
+  quantity: number;
+  sub_total: number;
+}
