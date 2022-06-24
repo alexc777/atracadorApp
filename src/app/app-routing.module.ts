@@ -13,48 +13,48 @@ const routes: Routes = [
   },
   // administrador
   {
-    path: 'dashboard',
+    path: 'dashboard/:id',
     loadChildren: () => import('./pages/admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
   },
   {
-    path: 'users',
+    path: 'users/:id',
     loadChildren: () => import('./pages/admin/users/users.module').then( m => m.UsersPageModule)
   },
   {
-    path: 'tables',
+    path: 'tables/:id',
     loadChildren: () => import('./pages/admin/tables/tables.module').then( m => m.TablesPageModule)
   },
   {
-    path: 'menus',
+    path: 'menus/:id',
     loadChildren: () => import('./pages/admin/menus/menus.module').then( m => m.MenusPageModule)
   },
   {
-    path: 'orders',
+    path: 'orders/:id',
     loadChildren: () => import('./pages/admin/orders/orders.module').then( m => m.OrdersPageModule)
   },
   // operativo
   {
-    path: 'home',
+    path: 'home/:id',
     loadChildren: () => import('./pages/operational/home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: 'tables-list',
+    path: 'tables-list/:id',
     loadChildren: () => import('./pages/operational/tables-list/tables-list.module').then( m => m.TablesListPageModule)
   },
   {
-    path: 'menus-list',
+    path: 'menus-list/:id',
     loadChildren: () => import('./pages/operational/menus-list/menus-list.module').then( m => m.MenusListPageModule)
   },
   {
-    path: 'orders-list',
+    path: 'orders-list/:id',
     loadChildren: () => import('./pages/operational/orders-list/orders-list.module').then( m => m.OrdersListPageModule)
   },
   {
-    path: 'select-table',
+    path: 'select-table/:id',
     loadChildren: () => import('./pages/operational/createOrder/select-table/select-table.module').then( m => m.SelectTablePageModule)
   },
   {
-    path: 'select-menus',
+    path: 'select-menus/:id',
     loadChildren: () => import('./pages/operational/createOrder/select-menus/select-menus.module').then( m => m.SelectMenusPageModule)
   },
 ];

@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { CreateUserModalPage } from '../../../components/create-user-modal/create-user-modal.page';
 import { UiService } from '../../../services/shared/UI/ui.service';
+import { UsersService } from '../../../services/users/users.service';
+import { IListUsers } from '../../../core/interfaces/user.interface';
+import { IErrorResponse } from '../../../core/interfaces/errorsResponse.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -10,33 +14,29 @@ import { UiService } from '../../../services/shared/UI/ui.service';
 })
 export class UsersPage implements OnInit {
 
-  arrUsers: any[] = [
-    {
-      id_user: 1,
-      first_name: 'Admin',
-      last_name: 'Atracador',
-      email: 'admin@elatracador.com',
-      id_rol: 1
-    },
-    {
-      id_user: 2,
-      first_name: 'Jorge',
-      last_name: 'Oliva',
-      email: 'joliva@elatracador.com',
-      id_rol: 1
-    },
-    {
-      id_user: 3,
-      first_name: 'Sara',
-      last_name: 'Valencia',
-      email: 'svalencia@elatracador.com',
-      id_rol: 2
-    }
-  ];
+  public id_action: any;
+  arrUsers: IListUsers[] = [];
 
-  constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService) { }
+  constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService,
+              private userService: UsersService, private routerP: ActivatedRoute) { }
 
   ngOnInit() {
+    this.routerP.params.subscribe(params => {
+      this.id_action = params.id;
+    });
+
+    this.getUsers();
+  }
+
+  getUsers() {
+    const l = this.uiService.presentLoading();
+    this.userService.getUser().subscribe((response: IListUsers[]) => {
+      this.uiService.dismissLoading(l);
+      this.arrUsers = response;
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
   async showCreate(user?: any) {
@@ -47,14 +47,14 @@ export class UsersPage implements OnInit {
       cssClass: 'radius-modal',
       componentProps: {
         user: user,
-        idUser: 1
+        idUser: this.id_action
       },
     });
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
     if (data) {
-      data.refresh ? console.log('recargar') : '';
+      data.refresh ? this.getUsers() : '';
     }
   }
 
@@ -81,23 +81,18 @@ export class UsersPage implements OnInit {
   }
 
   confirmDetele(id_user: any) {
-    console.log(id_user);
     const l = this.uiService.presentLoading();
-    setTimeout(() => {
+    this.userService.deleteUser({id_user, user_action: this.id_action}).subscribe(() => {
       this.uiService.dismissLoading(l);
       this.uiService.presentToastInfo('Usuario eliminado');
-    }, 1000);
-
-    // this.clientService.toogleStatusClient(id_user).subscribe(() => {
-    //   this.uiService.dismissLoading(l);
-    //   this.getListClients();
-    // }, (error: IErrorResponse) => {
-    //     this.uiService.dismissLoading(l);
-    //     if (!this.uiService.presentAlert) {
-    //       this.uiService.presentAlert = true;
-    //       this.uiService.alertInfo('Error al eliminar cliente', error.errorDescription);
-    //     }
-    // });
+      this.getUsers();
+    }, (error: IErrorResponse) => {
+        this.uiService.dismissLoading(l);
+        if (!this.uiService.presentAlert) {
+          this.uiService.presentAlert = true;
+          this.uiService.alertInfo('Error al eliminar usuario', error.errorDescription);
+        }
+    });
   }
 
 }

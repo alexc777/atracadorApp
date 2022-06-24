@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { UiService } from '../../services/shared/UI/ui.service';
 import { IUserParams, IUserEdit } from '../../core/interfaces/user.interface';
+import { UsersService } from '../../services/users/users.service';
+import { IErrorResponse } from '../../core/interfaces/errorsResponse.interface';
 
 @Component({
   selector: 'app-create-user-modal',
@@ -34,7 +36,7 @@ export class CreateUserModalPage implements OnInit {
   editUser = false;
   frmUser: FormGroup;
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService) { }
+  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService, private userService: UsersService) { }
 
   ngOnInit() {
     this.createFrmUser();
@@ -90,29 +92,19 @@ export class CreateUserModalPage implements OnInit {
       user_action : this.idUser
     }
 
-    console.log('Crear: ', jsonUser);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.userService.createUser(jsonUser).subscribe(() => {
       this.uiServece.presentToastSuccess('Usuario creado');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // this.userService.createUser(jsonUser).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario creado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // });
+    },(error: IErrorResponse) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    });
   }
 
   sendEditUser() {
@@ -134,30 +126,19 @@ export class CreateUserModalPage implements OnInit {
       user_action : this.idUser,
     }
 
-    console.log('Editar: ', jsonEdit);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.userService.editUser(jsonEdit).subscribe(() => {
       this.uiServece.presentToastSuccess('Usuario editado');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // const l = this.uiServece.presentLoading();
-    // this.userService.editUser(jsonEdit).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario editado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // })
+    },(error: IErrorResponse) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    });
 
   }
 

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { UiService } from '../../services/shared/UI/ui.service';
-import { ILoginForm } from '../../core/interfaces/login.interface';
+import { ILoginForm, IResponseLogin } from '../../core/interfaces/login.interface';
+import { LoginService } from '../../services/auth/login.service';
+import { IErrorResponse } from '../../core/interfaces/errorsResponse.interface';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,7 @@ export class LoginPage implements OnInit {
 
   forma: FormGroup;
 
-  constructor(public navCtrl: NavController, private fb: FormBuilder, private uiService: UiService) { }
+  constructor(public navCtrl: NavController, private fb: FormBuilder, private uiService: UiService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.crearFormulario();
@@ -36,18 +38,18 @@ export class LoginPage implements OnInit {
       password: this.forma.value.password,
     };
 
-    console.log(data);
-
     const l = this.uiService.presentLoading();
-    setTimeout(() => {
+    this.loginService.login(data).subscribe((response: IResponseLogin) => {
       this.uiService.dismissLoading(l);
-
-      if (data.email === 'admin@elatracador.com') {
-        this.navCtrl.navigateRoot(['/dashboard'],{ replaceUrl: true, animated: true });
+      if (response.data.id_rol === 1) {
+        this.navCtrl.navigateRoot([`/dashboard/${response.data.id_user}`],{ replaceUrl: true, animated: true });
       } else {
-        this.navCtrl.navigateRoot(['/home'],{ replaceUrl: true, animated: true });
+        this.navCtrl.navigateRoot([`/home/${response.data.id_user}`],{ replaceUrl: true, animated: true });
       }
-    }, 1500);
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
 }

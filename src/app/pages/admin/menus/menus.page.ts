@@ -67,7 +67,7 @@ export class MenusPage implements OnInit {
 
   async deleteMenu(menu: any) {
     const alert = await this.alertController.create({
-      header: 'Eliminar Usuario',
+      header: 'Eliminar Menú',
       message: `¿Estas seguro de eliminar el menú <strong>${menu.name}</strong>?`,
       buttons: [
         {
