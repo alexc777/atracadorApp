@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 
 import { UiService } from '../../services/shared/UI/ui.service';
 import { IParamsTable, IParamsEditTable } from '../../core/interfaces/table.inteface';
+import { TablesService } from '../../services/tables/tables.service';
+import { IErrorResponse } from '../../core/interfaces/errorsResponse.interface';
 
 @Component({
   selector: 'app-create-table-modal',
@@ -19,7 +21,7 @@ export class CreateTableModalPage implements OnInit {
   editTable = false;
   frmTable: FormGroup;
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService) { }
+  constructor(private modalCtrl: ModalController, private fb: FormBuilder, private uiServece: UiService, private tableService: TablesService) { }
 
   ngOnInit() {
     this.createFrmTable();
@@ -69,29 +71,19 @@ export class CreateTableModalPage implements OnInit {
       capacity: infoTable.capacity
     }
 
-    console.log('Crear: ', jsonTable);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.tableService.createTable(jsonTable).subscribe(() => {
       this.uiServece.presentToastSuccess('Mesa Creada');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // this.userService.createUser(jsonUser).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario creado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // });
+    },(error: IErrorResponse) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    });
   }
 
   sendEditTable() {
@@ -111,31 +103,19 @@ export class CreateTableModalPage implements OnInit {
       id_table: this.table.id_table
     }
 
-    console.log('Editar: ', jsonEdit);
-
     const l = this.uiServece.presentLoading();
-    setTimeout(() => {
+    this.tableService.editTable(jsonEdit).subscribe(() => {
       this.uiServece.presentToastSuccess('Mesa Editada');
       this.uiServece.dismissLoading(l);
       this.isRefresh = true;
       this.close();
-    }, 1000);
-
-    // const l = this.uiServece.presentLoading();
-    // this.userService.editUser(jsonEdit).subscribe(() => {
-    //   this.uiServece.presentToastSuccess('Usuario editado');
-    //   this.uiServece.dismissLoading(l);
-    //   this.isRefresh = true;
-    //   this.close();
-    // },(error: any) => {
-    //   this.uiServece.dismissLoading(l);
-    //   if (!this.uiServece.presentAlert) {
-    //     this.uiServece.presentAlert = true;
-    //     this.uiServece.alertInfo('Error', error.errorDescription);
-    //     this.uiServece.logout(error.errorDescription);
-    //   }
-    // })
-
+    },(error: IErrorResponse) => {
+      this.uiServece.dismissLoading(l);
+      if (!this.uiServece.presentAlert) {
+        this.uiServece.presentAlert = true;
+        this.uiServece.alertInfo('Error', error.errorDescription);
+      }
+    });
   }
 
 }

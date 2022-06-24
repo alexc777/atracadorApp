@@ -3,6 +3,10 @@ import { AlertController, ModalController } from '@ionic/angular';
 
 import { UiService } from '../../../services/shared/UI/ui.service';
 import { CreateTableModalPage } from '../../../components/create-table-modal/create-table-modal.page';
+import { TablesService } from '../../../services/tables/tables.service';
+import { IListTables } from '../../../core/interfaces/table.inteface';
+import { IErrorResponse } from '../../../core/interfaces/errorsResponse.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tables',
@@ -11,40 +15,30 @@ import { CreateTableModalPage } from '../../../components/create-table-modal/cre
 })
 export class TablesPage implements OnInit {
 
-  arrTables: any[]= [
-    {
-        "id_table": 1,
-        "name": "Mesa #1",
-        "number_table": 5,
-        "capacity": 5,
-        "status": 1
-    },
-    {
-        "id_table": 2,
-        "name": "Mesa #2",
-        "number_table": 6,
-        "capacity": 8,
-        "status": 2
-    },
-    {
-      "id_table": 3,
-      "name": "Mesa #3",
-      "number_table": 3,
-      "capacity": 4,
-      "status": 1
-    },
-    {
-      "id_table": 4,
-      "name": "Mesa #4",
-      "number_table": 4,
-      "capacity": 7,
-      "status": 2
-    },
-  ]
+  public id_action: any;
 
-  constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService) { }
+  arrTables: IListTables[]= []
+
+  constructor(private modalCtrl: ModalController, private alertController: AlertController, private uiService: UiService,
+              private tableService: TablesService, private routerP: ActivatedRoute) { }
 
   ngOnInit() {
+    this.routerP.params.subscribe(params => {
+      this.id_action = params.id;
+    });
+
+    this.getTables();
+  }
+
+  getTables() {
+    const l = this.uiService.presentLoading();
+    this.tableService.getTables().subscribe((response: IListTables[]) => {
+      this.uiService.dismissLoading(l);
+      this.arrTables = response;
+    }, (error: IErrorResponse) => {
+      this.uiService.dismissLoading(l);
+      this.uiService.alertInfo('Error', error.errorDescription);
+    });
   }
 
   async showCreate(table?: any) {
@@ -62,14 +56,14 @@ export class TablesPage implements OnInit {
 
     const { data } = await modal.onDidDismiss();
     if (data) {
-      data.refresh ? console.log('recargar') : '';
+      data.refresh ? this.getTables() : '';
     }
   }
 
   async deleteTable(table: any) {
     const alert = await this.alertController.create({
-      header: 'Eliminar Usuario',
-      message: `¿Estas seguro de eliminar la <strong>${table.name}</strong>?`,
+      header: 'Eliminar Mesa',
+      message: `¿Estas seguro de eliminar la Mesa #<strong>${table.id_table}</strong>?`,
       buttons: [
         {
           text: 'Cancelar',
@@ -89,23 +83,18 @@ export class TablesPage implements OnInit {
   }
 
   confirmDetele(id_table: any) {
-    console.log(id_table);
     const l = this.uiService.presentLoading();
-    setTimeout(() => {
+    this.tableService.deleteTable({ id_table, user_action: this.id_action }).subscribe(() => {
       this.uiService.dismissLoading(l);
       this.uiService.presentToastInfo('Mesa eliminada');
-    }, 1000);
-
-    // this.clientService.toogleStatusClient(id_user).subscribe(() => {
-    //   this.uiService.dismissLoading(l);
-    //   this.getListClients();
-    // }, (error: IErrorResponse) => {
-    //     this.uiService.dismissLoading(l);
-    //     if (!this.uiService.presentAlert) {
-    //       this.uiService.presentAlert = true;
-    //       this.uiService.alertInfo('Error al eliminar cliente', error.errorDescription);
-    //     }
-    // });
+      this.getTables();
+    }, (error: IErrorResponse) => {
+        this.uiService.dismissLoading(l);
+        if (!this.uiService.presentAlert) {
+          this.uiService.presentAlert = true;
+          this.uiService.alertInfo('Error al eliminar mesa', error.errorDescription);
+        }
+    });
   }
 
 }
