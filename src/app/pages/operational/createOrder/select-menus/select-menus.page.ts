@@ -126,6 +126,8 @@ export class SelectMenusPage implements OnInit {
           text: 'Aceptar',
           handler: () => {
             this.navCtrl.navigateRoot([`/home/${this.id_action}`],{ replaceUrl: true, animated: true });
+            this.createOrderService.carrito = [];
+            this.createOrderService.totalVenta = 0;
           }
         }
       ]
