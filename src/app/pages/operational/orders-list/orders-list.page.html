@@ -17,7 +17,7 @@
         <ion-badge color="success" mode="ios" class="spacer" *ngIf="order.status === 3">Completada</ion-badge>
         <ion-badge color="danger" mode="ios" class="spacer"  *ngIf="order.status === 4">Cancelada</ion-badge>
 
-        <div class="center_buttons">
+        <div class="center_buttons" *ngIf="order.status !== 3 && order.status !== 4">
           <ion-button fill="outline" shape="round" size="small" class="ion-margin-top ion-margin-bottom" (click)="changeState(order)">
             <ion-icon slot="start" name="create-outline"></ion-icon>
             Cambiar estado
